@@ -5,30 +5,26 @@ module.exports = function check(str, bracketsConfig) {
   let bracketPosition;
   let dublicate = false;
 
-  //превращаем двумерный массив в одномерный для удобства работы
   bracketsConfig = bracketsConfig.reduce(
       (result, element) => result.concat(element),
       []
   );
 
-
   for(let i = 0; i < str.length; i++) {
     let current = str[i];
-    bracketPosition = bracketsConfig.indexOf(current); //находим на какой позиции в конфиге стоит текущаю скобка
-    if (dublicate == true && str[i] == '|'){
+    bracketPosition = bracketsConfig.indexOf(current);
+    if ((dublicate == true && str[i] == '|') || (dublicate == true && str[i] == '7') || (dublicate == true && str[i] == '8')){
       bracketPosition++;
+      dublicate = false;
     }
-    //проверка на то существует ли скобки в конфиге
+
     if(bracketPosition == -1) {
       return false;
     }
 
-    
     if(bracketPosition % 2 == 0) {
-      if (str[i] == '|'){
+      if (str[i] == '|' || str[i] == '7' || str[i] == '8'){
         dublicate = true;
-      } else {
-        dublicate == false;
       }
       stack.push(bracketPosition + 1);
     } else {
@@ -37,5 +33,6 @@ module.exports = function check(str, bracketsConfig) {
       }
     }
   }
+
   return stack.length == 0;
 }
